@@ -1,0 +1,253 @@
+{
+  "version": "0.1.0",
+  "rule": "one block performs exactly one operation",
+  "blocks": [
+    {
+      "id": "context.create",
+      "label": "Create Context",
+      "button_id": "btn-context-create",
+      "operation": "context.create",
+      "one_action": true,
+      "input_state": ["form.context"],
+      "output_state": "context.active",
+      "params": {
+        "context_fields": [
+          "target_purpose",
+          "app_purpose",
+          "input_var",
+          "language",
+          "domain",
+          "policy",
+          "canary",
+          "canary_url",
+          "forbidden_request",
+          "forbidden_instruction"
+        ]
+      },
+      "ui": {
+        "zone": "setup.context",
+        "variant": "primary"
+      },
+      "notes": "폼 입력을 promptfoo/garak 공통 context state로 변환한다."
+    },
+    {
+      "id": "source.select",
+      "label": "Select Source",
+      "button_id": "btn-source-select",
+      "operation": "source.select",
+      "one_action": true,
+      "input_state": ["form.source"],
+      "output_state": "source.active",
+      "params": {
+        "allowed_sources": ["promptfoo", "garak"]
+      },
+      "ui": {
+        "zone": "setup.source",
+        "variant": "segmented"
+      },
+      "notes": "활성 소스를 하나 선택한다."
+    },
+    {
+      "id": "module.select",
+      "label": "Select Module",
+      "button_id": "btn-module-select",
+      "operation": "module.select",
+      "one_action": true,
+      "input_state": ["source.active", "form.module"],
+      "output_state": "module.active",
+      "params": {
+        "selection_mode": "single"
+      },
+      "ui": {
+        "zone": "catalog.modules",
+        "variant": "list-item"
+      },
+      "notes": "공격 모듈 하나만 선택한다."
+    },
+    {
+      "id": "payload.generate.promptfoo",
+      "label": "Generate promptfoo Payloads",
+      "button_id": "btn-pf-payload-generate",
+      "operation": "payload.generate.promptfoo",
+      "one_action": true,
+      "input_state": ["context.active", "module.active", "form.count"],
+      "output_state": "payload.batch",
+      "params": {
+        "package": "promptfoo_payloads",
+        "function": "generate_payloads",
+        "source": "promptfoo",
+        "accepted_params": ["categories", "modules", "context", "count", "limit"]
+      },
+      "ui": {
+        "zone": "builder.payload",
+        "variant": "primary"
+      },
+      "notes": "promptfoo payload 원본만 생성한다. strategy 적용은 하지 않는다."
+    },
+    {
+      "id": "payload.generate.garak",
+      "label": "Generate garak Payloads",
+      "button_id": "btn-garak-payload-generate",
+      "operation": "payload.generate.garak",
+      "one_action": true,
+      "input_state": ["context.active", "module.active", "form.count"],
+      "output_state": "payload.batch",
+      "params": {
+        "package": "garak_payloads",
+        "function": "generate_payloads",
+        "source": "garak",
+        "accepted_params": ["categories", "modules", "context", "count", "limit"]
+      },
+      "ui": {
+        "zone": "builder.payload",
+        "variant": "primary"
+      },
+      "notes": "garak payload 원본만 생성한다. buff 적용은 하지 않는다."
+    },
+    {
+      "id": "payload.strengthen.promptfoo",
+      "label": "Apply promptfoo Strategy",
+      "button_id": "btn-pf-strengthen",
+      "operation": "payload.strengthen.promptfoo",
+      "one_action": true,
+      "input_state": ["context.active", "payload.batch", "form.strategy"],
+      "output_state": "payload.strengthened_batch",
+      "params": {
+        "package": "promptfoo_payloads",
+        "function": "apply_strategies",
+        "source": "promptfoo",
+        "accepted_params": ["strategies", "include_original"],
+        "include_original": false
+      },
+      "ui": {
+        "zone": "builder.strengtheners",
+        "variant": "secondary"
+      },
+      "notes": "promptfoo strategy 하나만 적용한다."
+    },
+    {
+      "id": "payload.strengthen.garak",
+      "label": "Apply garak Buff",
+      "button_id": "btn-garak-strengthen",
+      "operation": "payload.strengthen.garak",
+      "one_action": true,
+      "input_state": ["context.active", "payload.batch", "form.buff"],
+      "output_state": "payload.strengthened_batch",
+      "params": {
+        "package": "garak_payloads",
+        "function": "apply_buffs",
+        "source": "garak",
+        "accepted_params": ["buffs", "include_original"],
+        "include_original": false
+      },
+      "ui": {
+        "zone": "builder.strengtheners",
+        "variant": "secondary"
+      },
+      "notes": "garak buff 하나만 적용한다."
+    },
+    {
+      "id": "payload.preview",
+      "label": "Preview Payload",
+      "button_id": "btn-payload-preview",
+      "operation": "payload.preview",
+      "one_action": true,
+      "input_state": ["payload.active"],
+      "output_state": "view.payload_preview",
+      "params": {
+        "redact_fields": ["canary_url", "partial_secret"]
+      },
+      "ui": {
+        "zone": "preview.payload",
+        "variant": "secondary"
+      },
+      "notes": "선택 payload 하나를 화면 미리보기 state로 변환한다."
+    },
+    {
+      "id": "queue.enqueue",
+      "label": "Enqueue Payloads",
+      "button_id": "btn-queue-enqueue",
+      "operation": "queue.enqueue",
+      "one_action": true,
+      "input_state": ["payload.batch"],
+      "output_state": "queue.pending",
+      "params": {
+        "queue_policy": "append"
+      },
+      "ui": {
+        "zone": "run.queue",
+        "variant": "secondary"
+      },
+      "notes": "payload batch를 실행 대기열에 추가한다."
+    },
+    {
+      "id": "target.dispatch",
+      "label": "Dispatch One Payload",
+      "button_id": "btn-target-dispatch",
+      "operation": "target.dispatch",
+      "one_action": true,
+      "input_state": ["target.active", "payload.active"],
+      "output_state": "response.active",
+      "params": {
+        "dispatch_mode": "single",
+        "timeout_ms": 30000
+      },
+      "ui": {
+        "zone": "run.execution",
+        "variant": "primary"
+      },
+      "notes": "payload 하나를 target adapter 하나에 전달한다."
+    },
+    {
+      "id": "response.evaluate",
+      "label": "Evaluate Response",
+      "button_id": "btn-response-evaluate",
+      "operation": "response.evaluate",
+      "one_action": true,
+      "input_state": ["payload.active", "response.active", "evaluator.active"],
+      "output_state": "evaluation.active",
+      "params": {
+        "evaluation_mode": "single_response"
+      },
+      "ui": {
+        "zone": "run.evaluation",
+        "variant": "primary"
+      },
+      "notes": "response 하나를 evaluator 하나로 평가한다."
+    },
+    {
+      "id": "result.persist",
+      "label": "Persist Result",
+      "button_id": "btn-result-persist",
+      "operation": "result.persist",
+      "one_action": true,
+      "input_state": ["payload.active", "response.active", "evaluation.active"],
+      "output_state": "result.saved",
+      "params": {
+        "storage": "dashboard_results"
+      },
+      "ui": {
+        "zone": "results.actions",
+        "variant": "secondary"
+      },
+      "notes": "payload, response, evaluation을 하나의 결과 레코드로 저장한다."
+    },
+    {
+      "id": "trace.render",
+      "label": "Render Trace",
+      "button_id": "btn-trace-render",
+      "operation": "trace.render",
+      "one_action": true,
+      "input_state": ["result.active"],
+      "output_state": "view.trace",
+      "params": {
+        "include_fields": ["payload", "response", "evaluation", "metadata"]
+      },
+      "ui": {
+        "zone": "results.trace",
+        "variant": "secondary"
+      },
+      "notes": "저장된 result 하나를 trace view state로 변환한다."
+    }
+  ]
+}

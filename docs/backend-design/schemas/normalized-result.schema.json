@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mohican.local/schemas/normalized-result.schema.json",
+  "title": "Mohican Normalized Redteam Result",
+  "type": "object",
+  "required": ["jobId", "status", "summary", "engineResults", "findings", "artifacts"],
+  "additionalProperties": false,
+  "properties": {
+    "jobId": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["queued", "preparing", "generating", "running", "parsing", "completed", "failed", "cancelled"]
+    },
+    "summary": {
+      "type": "object",
+      "required": ["total", "passed", "failed", "errors", "riskScore"],
+      "additionalProperties": false,
+      "properties": {
+        "total": { "type": "integer", "minimum": 0 },
+        "passed": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 },
+        "errors": { "type": "integer", "minimum": 0 },
+        "riskScore": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "engineResults": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["engine", "status", "summary"],
+        "additionalProperties": true,
+        "properties": {
+          "engine": { "type": "string", "enum": ["promptfoo", "garak", "custom-suite"] },
+          "status": { "type": "string" },
+          "summary": { "type": "object" }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "engine", "category", "severity", "passed"],
+        "additionalProperties": true,
+        "properties": {
+          "id": { "type": "string" },
+          "engine": { "type": "string" },
+          "featureId": { "type": "string" },
+          "category": { "type": "string" },
+          "probe": { "type": "string" },
+          "plugin": { "type": "string" },
+          "strategy": { "type": "string" },
+          "buff": { "type": "string" },
+          "detector": { "type": "string" },
+          "severity": { "type": "string", "enum": ["critical", "high", "medium", "low", "info"] },
+          "passed": { "type": "boolean" },
+          "score": { "type": "number" },
+          "payload": { "type": "string" },
+          "response": { "type": "string" },
+          "evidence": { "type": "string" }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "path", "type"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "path": { "type": "string" },
+          "type": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -4,3 +4,21 @@ dist/
 *.tsbuildinfo
 vite.config.js
 vite.config.d.ts
+
+# Runtime artifacts
+.mohican/
+.promptfoo/
+*.log
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.venv/
+
+# External tool checkouts. Keep them local; do not commit vendored sources.
+promptfoo/
+garak/
+agent-threat-rules/
+skill-scanner/
+ollama-auth-proxy/

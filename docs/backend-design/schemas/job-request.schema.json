@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mohican.local/schemas/job-request.schema.json",
+  "title": "Mohican Redteam Job Request",
+  "type": "object",
+  "required": ["target", "selections"],
+  "additionalProperties": false,
+  "properties": {
+    "target": {
+      "type": "object",
+      "required": ["baseUrl", "model", "requestMode"],
+      "additionalProperties": false,
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "minLength": 1
+        },
+        "apiKey": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requestMode": {
+          "type": "string",
+          "enum": ["chat", "generate"]
+        }
+      }
+    },
+    "selections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["featureId", "engines"],
+        "additionalProperties": false,
+        "properties": {
+          "featureId": {
+            "type": "string",
+            "enum": ["prompt-injection", "indirect-injection", "jailbreak", "tool-abuse"]
+          },
+          "engines": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": ["promptfoo", "garak", "custom-suite"]
+            }
+          }
+        }
+      }
+    },
+    "runOptions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "numTests": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "maxConcurrency": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "timeoutSeconds": {
+          "type": "integer",
+          "minimum": 30,
+          "maximum": 86400
+        },
+        "engineTimeoutSeconds": {
+          "type": "integer",
+          "minimum": 30,
+          "maximum": 86400
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+# 🛡️ LLM 통합 보안 진단 보고서
+
+**점검 대상 모델:** `{{ report_info.target_model | default('-', true) }}`  
+**점검 일시:** `{{ report_info.scan_date | default('-', true) }}`  
+**총 실행 모듈 수:** {{ report_info.total_modules_run | default(0, true) }} 개  
+**종합 위험도:** **{{ report_info.overall_severity | default('Safe', true) }}**  
+
+---
+
+{% if results %}
+## 📊 진단 요약
+
+| 모듈 이름 | 소스(Tool) | 테스트 수 | 취약점 발견 수 | 위험도 | 상태 |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+{%- for module_id, data in results.items() %}
+| **{{ data.display_name | default(module_id, true) }}** | {{ data.tool | default('-', true) }} | {{ data.total_tested | default(0, true) }} | **{{ data.vulnerable_count | default(0, true) }}** | {{ data.severity | default('Safe', true) }} | {% if (data.vulnerable_count | default(0, true)) > 0 %}🚨 위험{% else %}✅ 안전{% endif %} |
+{%- endfor %}
+
+---
+
+## 🔍 상세 진단 결과
+
+{% for module_id, data in results.items() %}
+{% set total_tested = data.total_tested | default(0, true) %}
+{% set vulnerable_count = data.vulnerable_count | default(0, true) %}
+### {{ loop.index }}. {{ data.display_name | default(module_id, true) }}
+* **소스(Tool):** {{ data.tool | default('-', true) }}
+* **위험도:** {{ data.severity | default('Safe', true) }}
+{% if total_tested > 0 %}
+* **탐지율 (Vulnerability Rate):** {{ (vulnerable_count / total_tested * 100) | round(1) }}% ({{ vulnerable_count }} / {{ total_tested }})
+{% else %}
+* **탐지율 (Vulnerability Rate):** 산출 불가 ({{ vulnerable_count }} / {{ total_tested }})
+{% endif %}
+
+{% if vulnerable_count > 0 and data.details %}
+**[ 🚨 주요 취약점 노출 사례 ]**
+| 공격 프롬프트 (Payload) | 모델 응답 (Response) |
+| :--- | :--- |
+{%- for detail in data.details %}
+| `{{ detail.prompt | default('-', true) | replace('\n', '<br>') }}` | `{{ detail.response | default('-', true) | replace('\n', '<br>') }}` |
+{%- endfor %}
+{% elif vulnerable_count > 0 %}
+> 🚨 *취약점은 탐지됐지만 상세 payload/response는 결과에 포함되지 않았습니다.*
+{% else %}
+> ✅ *해당 공격 벡터에 대한 모델의 방어력이 우수합니다. (취약점 미발견)*
+{% endif %}
+
+---
+{% endfor %}
+{% else %}
+> 출력 가능한 평가 결과가 없습니다.
+
+{% endif %}
+
+*보고서 생성 모듈 (Jinja2 Generator)*

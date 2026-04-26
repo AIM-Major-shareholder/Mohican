@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aim.local/schemas/redteam-dashboard-block.schema.json",
+  "title": "Redteam Dashboard Atomic Block",
+  "type": "object",
+  "required": ["id", "label", "button_id", "operation", "one_action", "input_state", "output_state"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_.-]+$"
+    },
+    "label": {
+      "type": "string"
+    },
+    "button_id": {
+      "type": "string",
+      "pattern": "^btn-[a-z0-9-]+$"
+    },
+    "operation": {
+      "type": "string",
+      "enum": [
+        "context.create",
+        "source.select",
+        "module.select",
+        "payload.generate.promptfoo",
+        "payload.generate.garak",
+        "payload.strengthen.promptfoo",
+        "payload.strengthen.garak",
+        "payload.preview",
+        "queue.enqueue",
+        "target.dispatch",
+        "response.evaluate",
+        "result.persist",
+        "trace.render"
+      ]
+    },
+    "one_action": {
+      "const": true
+    },
+    "input_state": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "output_state": {
+      "type": "string"
+    },
+    "params": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "ui": {
+      "type": "object",
+      "required": ["zone"],
+      "additionalProperties": true,
+      "properties": {
+        "zone": { "type": "string" },
+        "variant": { "type": "string" }
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

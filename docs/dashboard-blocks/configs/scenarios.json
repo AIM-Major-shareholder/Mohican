@@ -1,0 +1,242 @@
+{
+  "version": "0.1.0",
+  "rule": "scenario composes atomic blocks; scenario steps must not perform extra actions",
+  "scenarios": [
+    {
+      "id": "pf_prompt_injection_base64_single",
+      "label": "promptfoo Prompt Injection + Base64 + Single Target Run",
+      "description": "promptfoo prompt_injection payload를 생성하고 base64 strategy를 적용한 뒤 payload 하나를 target에 전달한다.",
+      "steps": [
+        {
+          "order": 1,
+          "block_id": "context.create",
+          "bind": {
+            "from": "form.context",
+            "to": "context.active"
+          }
+        },
+        {
+          "order": 2,
+          "block_id": "source.select",
+          "params": {
+            "source": "promptfoo"
+          }
+        },
+        {
+          "order": 3,
+          "block_id": "module.select",
+          "params": {
+            "source": "promptfoo",
+            "module": "prompt_injection",
+            "category": "prompt_injection"
+          }
+        },
+        {
+          "order": 4,
+          "block_id": "payload.generate.promptfoo",
+          "params": {
+            "modules": ["prompt_injection"],
+            "count": 5
+          }
+        },
+        {
+          "order": 5,
+          "block_id": "payload.strengthen.promptfoo",
+          "params": {
+            "strategies": ["base64"],
+            "include_original": false
+          }
+        },
+        {
+          "order": 6,
+          "block_id": "payload.preview",
+          "params": {
+            "payload_ref": "payload.strengthened_batch[0]"
+          }
+        },
+        {
+          "order": 7,
+          "block_id": "target.dispatch",
+          "params": {
+            "payload_ref": "payload.strengthened_batch[0]"
+          }
+        },
+        {
+          "order": 8,
+          "block_id": "response.evaluate",
+          "params": {
+            "evaluator": "trigger_or_refusal"
+          }
+        },
+        {
+          "order": 9,
+          "block_id": "result.persist"
+        }
+      ]
+    },
+    {
+      "id": "garak_jailbreak_buff_single",
+      "label": "garak Jailbreak + Buff + Single Target Run",
+      "description": "garak jailbreak seed payload를 생성하고 buff 하나를 적용한 뒤 payload 하나를 target에 전달한다.",
+      "steps": [
+        {
+          "order": 1,
+          "block_id": "context.create"
+        },
+        {
+          "order": 2,
+          "block_id": "source.select",
+          "params": {
+            "source": "garak"
+          }
+        },
+        {
+          "order": 3,
+          "block_id": "module.select",
+          "params": {
+            "source": "garak",
+            "module": "jailbreak",
+            "category": "jailbreak"
+          }
+        },
+        {
+          "order": 4,
+          "block_id": "payload.generate.garak",
+          "params": {
+            "modules": ["jailbreak"],
+            "count": 5
+          }
+        },
+        {
+          "order": 5,
+          "block_id": "payload.strengthen.garak",
+          "params": {
+            "buffs": ["base64"],
+            "include_original": false
+          }
+        },
+        {
+          "order": 6,
+          "block_id": "payload.preview",
+          "params": {
+            "payload_ref": "payload.strengthened_batch[0]"
+          }
+        },
+        {
+          "order": 7,
+          "block_id": "target.dispatch",
+          "params": {
+            "payload_ref": "payload.strengthened_batch[0]"
+          }
+        },
+        {
+          "order": 8,
+          "block_id": "response.evaluate",
+          "params": {
+            "evaluator": "garak_detector_metadata"
+          }
+        },
+        {
+          "order": 9,
+          "block_id": "result.persist"
+        }
+      ]
+    },
+    {
+      "id": "pf_rag_canary_batch_queue",
+      "label": "promptfoo RAG Canary Batch Queue",
+      "description": "RAG payload batch를 생성하고 실행 대기열에 넣는다. target 호출은 별도 버튼에서 수행한다.",
+      "steps": [
+        {
+          "order": 1,
+          "block_id": "context.create"
+        },
+        {
+          "order": 2,
+          "block_id": "source.select",
+          "params": {
+            "source": "promptfoo"
+          }
+        },
+        {
+          "order": 3,
+          "block_id": "module.select",
+          "params": {
+            "source": "promptfoo",
+            "module": "rag",
+            "category": "rag"
+          }
+        },
+        {
+          "order": 4,
+          "block_id": "payload.generate.promptfoo",
+          "params": {
+            "modules": ["rag"],
+            "count": 10
+          }
+        },
+        {
+          "order": 5,
+          "block_id": "queue.enqueue"
+        }
+      ]
+    },
+    {
+      "id": "garak_data_leakage_markdown_exfil_preview",
+      "label": "garak Data Leakage Preview",
+      "description": "garak data_leakage payload를 생성하고 미리보기까지만 수행한다.",
+      "steps": [
+        {
+          "order": 1,
+          "block_id": "context.create"
+        },
+        {
+          "order": 2,
+          "block_id": "source.select",
+          "params": {
+            "source": "garak"
+          }
+        },
+        {
+          "order": 3,
+          "block_id": "module.select",
+          "params": {
+            "source": "garak",
+            "module": "data_leakage",
+            "category": "data_leakage"
+          }
+        },
+        {
+          "order": 4,
+          "block_id": "payload.generate.garak",
+          "params": {
+            "modules": ["data_leakage"],
+            "count": 8
+          }
+        },
+        {
+          "order": 5,
+          "block_id": "payload.preview",
+          "params": {
+            "payload_ref": "payload.batch[0]"
+          }
+        }
+      ]
+    },
+    {
+      "id": "manual_one_payload_result_trace",
+      "label": "Manual One Payload Result Trace",
+      "description": "이미 실행된 결과 하나를 저장하고 trace view로 변환한다.",
+      "steps": [
+        {
+          "order": 1,
+          "block_id": "result.persist"
+        },
+        {
+          "order": 2,
+          "block_id": "trace.render"
+        }
+      ]
+    }
+  ]
+}

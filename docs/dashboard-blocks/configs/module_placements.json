@@ -1,0 +1,231 @@
+{
+  "version": "0.1.0",
+  "layout": {
+    "setup.context": ["context.create"],
+    "setup.source": ["source.select"],
+    "catalog.modules": ["module.select"],
+    "builder.payload": ["payload.generate.promptfoo", "payload.generate.garak"],
+    "builder.strengtheners": ["payload.strengthen.promptfoo", "payload.strengthen.garak"],
+    "preview.payload": ["payload.preview"],
+    "run.queue": ["queue.enqueue"],
+    "run.execution": ["target.dispatch"],
+    "run.evaluation": ["response.evaluate"],
+    "results.actions": ["result.persist"],
+    "results.trace": ["trace.render"]
+  },
+  "sources": [
+    {
+      "source": "promptfoo",
+      "label": "promptfoo",
+      "package": "promptfoo_payloads",
+      "context_class": "AttackContext",
+      "payload_generate_block": "payload.generate.promptfoo",
+      "strengthen_block": "payload.strengthen.promptfoo",
+      "module_zone": "catalog.modules",
+      "strengthener_zone": "builder.strengtheners",
+      "modules": [
+        {
+          "id": "prompt_injection",
+          "category": "prompt_injection",
+          "label": "Prompt Injection",
+          "button_id": "btn-pf-module-prompt-injection",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.promptfoo"
+        },
+        {
+          "id": "jailbreak",
+          "category": "jailbreak",
+          "label": "Jailbreak",
+          "button_id": "btn-pf-module-jailbreak",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.promptfoo"
+        },
+        {
+          "id": "encoding_obfuscation",
+          "category": "encoding_obfuscation",
+          "label": "Encoding and Obfuscation",
+          "button_id": "btn-pf-module-encoding-obfuscation",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.promptfoo"
+        },
+        {
+          "id": "data_leakage",
+          "category": "data_leakage",
+          "label": "Data Leakage",
+          "button_id": "btn-pf-module-data-leakage",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.promptfoo"
+        },
+        {
+          "id": "access_control",
+          "category": "access_control",
+          "label": "Access Control",
+          "button_id": "btn-pf-module-access-control",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.promptfoo"
+        },
+        {
+          "id": "rag",
+          "category": "rag",
+          "label": "RAG",
+          "button_id": "btn-pf-module-rag",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.promptfoo"
+        },
+        {
+          "id": "agent_tool",
+          "category": "agent_tool",
+          "label": "Agent and Tool",
+          "button_id": "btn-pf-module-agent-tool",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.promptfoo"
+        },
+        {
+          "id": "coding_agent",
+          "category": "coding_agent",
+          "label": "Coding Agent",
+          "button_id": "btn-pf-module-coding-agent",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.promptfoo"
+        },
+        {
+          "id": "safety",
+          "category": "safety",
+          "label": "Safety",
+          "button_id": "btn-pf-module-safety",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.promptfoo"
+        },
+        {
+          "id": "compliance",
+          "category": "compliance",
+          "label": "Compliance",
+          "button_id": "btn-pf-module-compliance",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.promptfoo"
+        }
+      ],
+      "strengtheners": [
+        { "id": "base64", "label": "Base64", "button_id": "btn-pf-strategy-base64", "block": "payload.strengthen.promptfoo" },
+        { "id": "hex", "label": "Hex", "button_id": "btn-pf-strategy-hex", "block": "payload.strengthen.promptfoo" },
+        { "id": "rot13", "label": "ROT13", "button_id": "btn-pf-strategy-rot13", "block": "payload.strengthen.promptfoo" },
+        { "id": "leetspeak", "label": "Leetspeak", "button_id": "btn-pf-strategy-leetspeak", "block": "payload.strengthen.promptfoo" },
+        { "id": "homoglyph", "label": "Homoglyph", "button_id": "btn-pf-strategy-homoglyph", "block": "payload.strengthen.promptfoo" },
+        { "id": "camelcase", "label": "camelCase", "button_id": "btn-pf-strategy-camelcase", "block": "payload.strengthen.promptfoo" },
+        { "id": "morse", "label": "Morse", "button_id": "btn-pf-strategy-morse", "block": "payload.strengthen.promptfoo" },
+        { "id": "piglatin", "label": "Pig Latin", "button_id": "btn-pf-strategy-piglatin", "block": "payload.strengthen.promptfoo" },
+        { "id": "emoji_smuggling", "label": "Emoji Smuggling", "button_id": "btn-pf-strategy-emoji-smuggling", "block": "payload.strengthen.promptfoo" },
+        { "id": "prompt_injection_wrapper", "label": "Injection Wrapper", "button_id": "btn-pf-strategy-injection-wrapper", "block": "payload.strengthen.promptfoo" },
+        { "id": "jailbreak_template", "label": "Jailbreak Template", "button_id": "btn-pf-strategy-jailbreak-template", "block": "payload.strengthen.promptfoo" },
+        { "id": "citation", "label": "Citation", "button_id": "btn-pf-strategy-citation", "block": "payload.strengthen.promptfoo" },
+        { "id": "likert", "label": "Likert", "button_id": "btn-pf-strategy-likert", "block": "payload.strengthen.promptfoo" },
+        { "id": "authoritative_markup", "label": "Authoritative Markup", "button_id": "btn-pf-strategy-authoritative-markup", "block": "payload.strengthen.promptfoo" },
+        { "id": "math_prompt", "label": "Math Prompt", "button_id": "btn-pf-strategy-math-prompt", "block": "payload.strengthen.promptfoo" },
+        { "id": "layered", "label": "Layered", "button_id": "btn-pf-strategy-layered", "block": "payload.strengthen.promptfoo" }
+      ]
+    },
+    {
+      "source": "garak",
+      "label": "garak",
+      "package": "garak_payloads",
+      "context_class": "GarakContext",
+      "payload_generate_block": "payload.generate.garak",
+      "strengthen_block": "payload.strengthen.garak",
+      "module_zone": "catalog.modules",
+      "strengthener_zone": "builder.strengtheners",
+      "modules": [
+        {
+          "id": "prompt_injection",
+          "category": "prompt_injection",
+          "label": "Prompt Injection",
+          "button_id": "btn-garak-module-prompt-injection",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.garak"
+        },
+        {
+          "id": "jailbreak",
+          "category": "jailbreak",
+          "label": "Jailbreak",
+          "button_id": "btn-garak-module-jailbreak",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.garak"
+        },
+        {
+          "id": "encoding_obfuscation",
+          "category": "encoding_obfuscation",
+          "label": "Encoding and Obfuscation",
+          "button_id": "btn-garak-module-encoding-obfuscation",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.garak"
+        },
+        {
+          "id": "data_leakage",
+          "category": "data_leakage",
+          "label": "Data Leakage",
+          "button_id": "btn-garak-module-data-leakage",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.garak"
+        },
+        {
+          "id": "harmful_safety",
+          "category": "harmful_safety",
+          "label": "Harmful Safety",
+          "button_id": "btn-garak-module-harmful-safety",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.garak"
+        },
+        {
+          "id": "exploitation_appsec",
+          "category": "exploitation_appsec",
+          "label": "Exploitation AppSec",
+          "button_id": "btn-garak-module-exploitation-appsec",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.garak"
+        },
+        {
+          "id": "hallucination_misinformation",
+          "category": "hallucination_misinformation",
+          "label": "Hallucination and Misinformation",
+          "button_id": "btn-garak-module-hallucination-misinformation",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.garak"
+        },
+        {
+          "id": "robustness",
+          "category": "robustness",
+          "label": "Robustness",
+          "button_id": "btn-garak-module-robustness",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.garak"
+        },
+        {
+          "id": "multimodal",
+          "category": "multimodal",
+          "label": "Multimodal",
+          "button_id": "btn-garak-module-multimodal",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.garak"
+        },
+        {
+          "id": "model_artifact",
+          "category": "model_artifact",
+          "label": "Model Artifact",
+          "button_id": "btn-garak-module-model-artifact",
+          "select_block": "module.select",
+          "generate_block": "payload.generate.garak"
+        }
+      ],
+      "strengtheners": [
+        { "id": "base64", "label": "Base64", "button_id": "btn-garak-buff-base64", "block": "payload.strengthen.garak" },
+        { "id": "charcode", "label": "CharCode", "button_id": "btn-garak-buff-charcode", "block": "payload.strengthen.garak" },
+        { "id": "lowercase", "label": "Lowercase", "button_id": "btn-garak-buff-lowercase", "block": "payload.strengthen.garak" },
+        { "id": "low_resource_language", "label": "Low Resource Language", "button_id": "btn-garak-buff-low-resource-language", "block": "payload.strengthen.garak" },
+        { "id": "paraphrase_pegasus_t5", "label": "Pegasus T5 Paraphrase", "button_id": "btn-garak-buff-paraphrase-pegasus-t5", "block": "payload.strengthen.garak" },
+        { "id": "paraphrase_fast", "label": "Fast Paraphrase", "button_id": "btn-garak-buff-paraphrase-fast", "block": "payload.strengthen.garak" },
+        { "id": "rot13", "label": "ROT13", "button_id": "btn-garak-buff-rot13", "block": "payload.strengthen.garak" },
+        { "id": "invisible_chars", "label": "Invisible Chars", "button_id": "btn-garak-buff-invisible-chars", "block": "payload.strengthen.garak" },
+        { "id": "homoglyph", "label": "Homoglyph", "button_id": "btn-garak-buff-homoglyph", "block": "payload.strengthen.garak" }
+      ]
+    }
+  ]
+}
