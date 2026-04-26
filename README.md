@@ -22,10 +22,9 @@ npm run dev
 
 ## Current UI Flow
 
-- Target API 설정
-- 평가 모듈 선택
-- 실행 옵션 및 runner 상태
-- 모듈별 성능/취약점 report
+- Target API 단계에서 Mohican API key, Ollama API URL, Ollama model, request mode 입력
+- API key 입력 완료 후 적용할 평가 모델 선택
+- 왼쪽 파이프라인에서 현재 진행 단계 표시
 
 ## Next Backend Shape
 
