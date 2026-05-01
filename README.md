@@ -21,13 +21,13 @@
 
 ## Demo
 
-<div align="center">
-
-<video src="./docs/assets/demo.mp4" controls width="720" muted playsinline>
-  Your browser does not support inline video. <a href="./docs/assets/demo.mp4">Download the demo</a>.
-</video>
-
-</div>
+<p align="center">
+  <a href="https://youtu.be/yBIpFi84qnA">
+    <img src="https://img.youtube.com/vi/yBIpFi84qnA/maxresdefault.jpg" alt="Mohican demo video — click to play" width="720">
+  </a>
+  <br>
+  <em>Click the thumbnail to watch the demo on YouTube.</em>
+</p>
 
 ## Screenshot
 
