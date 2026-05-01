@@ -1,6 +1,7 @@
 node_modules/
 dist/
-.codex
+build/
+.codex/
 *.tsbuildinfo
 vite.config.js
 vite.config.d.ts
@@ -15,6 +16,22 @@ __pycache__/
 .ruff_cache/
 *.egg-info/
 .venv/
+venv/
+env/
+.coverage
+coverage/
+htmlcov/
+.DS_Store
+report-generator/final_report.md
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local environment files. Keep examples tracked.
+.env
+.env.*
+!.env.example
 
 # External tool checkouts. Keep them local; do not commit vendored sources.
 promptfoo/
