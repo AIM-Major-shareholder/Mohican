@@ -2,6 +2,26 @@
 
 Mohican은 여러 LLM 보안 점검 도구의 장점을 하나의 대시보드에서 선택적으로 활용할 수 있게 만든 AI 보안 평가 플랫폼입니다. 기존에는 도구마다 실행 방식, 설정 방법, 결과 포맷이 달라 사용자가 직접 비교하고 운영해야 했지만, Mohican은 평가 대상 등록부터 취약점 유형 선택, 평가 모듈 실행, 결과 확인까지 하나의 흐름으로 통합하여 반복 가능한 LLM 보안 점검 환경을 제공합니다.
 
+<p align="center">
+  <img src="./public/mohican.png" alt="Mohican logo" width="220">
+</p>
+
+## 데모
+
+<p align="center">
+  <a href="https://youtu.be/yBIpFi84qnA">
+    <img src="https://img.youtube.com/vi/yBIpFi84qnA/hqdefault.jpg" alt="Mohican demo video" width="720">
+  </a>
+</p>
+
+<iframe width="720" height="405" src="https://www.youtube.com/embed/yBIpFi84qnA" title="Mohican demo video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+## 스크린샷
+
+<p align="center">
+  <img src="./docs/assets/mohican_capture.png" alt="Mohican dashboard screenshot">
+</p>
+
 ## 프로젝트 설명
 
 Mohican은 LLM 모델 및 AI Agent를 대상으로 인젝션 스캐닝을 수행하는 오픈소스 점검 도구들의 장점을 사용자 입장에서 쉽게 활용할 수 있도록 만든 대시보드 형태의 서비스입니다. `garak`, `promptfoo`와 같은 도구들을 각각 따로 실행하는 대신, 하나의 웹 UI에서 평가 대상 API를 등록하고, Prompt Injection, Jailbreak, Tool Abuse 등 원하는 취약점 유형을 선택한 뒤, 각 유형에 적합한 평가 모듈을 조합해 실행할 수 있도록 합니다.
@@ -46,11 +66,18 @@ Mohican은 `promptfoo`와 `garak`을 장기 실행 프로세스 내부로 직접
 
 ```text
 .
+├── README.md                    # 프로젝트 소개와 실행 가이드
+├── package.json                 # 프론트엔드 스크립트와 의존성
+├── vite.config.ts               # Vite 설정
+├── index.html                   # 프론트엔드 진입 HTML
 ├── src/                         # React/Vite frontend
 ├── public/                      # Frontend static assets
 ├── backend/                     # FastAPI job runner
+│   ├── src/mohican_backend/      # Backend application package
+│   └── tests/                    # Backend unit tests
 ├── report-generator/            # Markdown report generator
 └── docs/
+    ├── assets/                  # README and documentation images
     ├── backend-api.md           # Frontend/backend API notes
     ├── backend-design/          # Runner architecture and schemas
     └── dashboard-blocks/        # UI block/scenario design assets
